@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -13,28 +12,32 @@ public class RollerSubsystem extends SubsystemBase {
 
   TalonFX rollerMotor = new TalonFX(9);
 
-
-
   /** Creates a new RollerSubsystem. */
   public RollerSubsystem() {}
 
-  public void rollerForward(){
+  public void rollerBackward() {
     rollerMotor.set(0.2);
   }
 
-  public void rollerBackward(){
+  public void rollerForward() {
     rollerMotor.set(-0.2);
   }
 
-  public Command rollerForwardCommand() {
-    return run(() -> rollerForward());
+  public void stopRoller() {
+    rollerMotor.set(0);
   }
 
   public Command rollerBackwardCommand() {
     return run(() -> rollerBackward());
   }
 
-  
+  public Command rollerForwardCommand() {
+    return run(() -> rollerForward());
+  }
+
+  public Command stopRollerCommand() {
+    return run(() -> stopRoller());
+  }
 
   @Override
   public void periodic() {
