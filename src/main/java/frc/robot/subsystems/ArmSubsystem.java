@@ -20,7 +20,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     var slot0Configs = talonFXConfigs.Slot0;
     slot0Configs.kS = 0.14;
-    slot0Configs.kV = 0.113;
+    slot0Configs.kV = 0.939;
     slot0Configs.kA = 0.002;
     slot0Configs.kG = 0.435;
     slot0Configs.kP = 28;
@@ -50,7 +50,7 @@ public class ArmSubsystem extends SubsystemBase {
     return run(
         () -> {
           position.refresh();
-          armUp(position.getValueAsDouble() + 0.1);
+          armUp(position.getValueAsDouble() + 0.05);
         });
   }
 
@@ -58,7 +58,7 @@ public class ArmSubsystem extends SubsystemBase {
     return run(
         () -> {
           position.refresh();
-          armDown(position.getValueAsDouble() - 0.1);
+          armDown(position.getValueAsDouble() - 0.05);
         });
   }
 
