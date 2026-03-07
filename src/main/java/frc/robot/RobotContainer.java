@@ -4,11 +4,14 @@
 
 package frc.robot;
 
+import java.lang.reflect.GenericSignatureFormatError;
+
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.subsystems.RollerSubsystem;
 
 /**
@@ -21,6 +24,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final RollerSubsystem m_rollerSubsystem = new RollerSubsystem();
+  private final GripperSubsystem m_gripperSubsystem = new GripperSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller m_driverController =
@@ -58,6 +62,17 @@ public class RobotContainer {
         .triangle()
         .whileTrue(m_rollerSubsystem.rollerForwardCommand())
         .onFalse(m_rollerSubsystem.stopRollerCommand());
+
+    m_driverController
+        .pov(90)
+        .whileTrue(m_gripperSubsystem.gripperOpenCommand())
+        .onFalse(m_gripperSubsystem.gripperServoStopCommand());
+
+    m_driverController
+        .pov(270)
+        .whileTrue(m_gripperSubsystem.gripperCloseCommand())
+        .onFalse(m_gripperSubsystem.gripperServoStopCommand());
+
   }
 
   /**

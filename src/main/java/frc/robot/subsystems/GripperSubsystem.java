@@ -1,0 +1,43 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class GripperSubsystem extends SubsystemBase {
+  /** Creates a new GripperSubsystem. */
+  public GripperSubsystem() {}
+  Servo gripperServo = new Servo(1);
+
+  public void gripperClose(){
+    gripperServo.set(1);
+  }
+
+  public void gripperOpen(){
+    gripperServo.set(0);
+  }
+
+  public void gripperStop(){
+    gripperServo.set(0.5);
+  }
+
+  public Command gripperCloseCommand(){
+    return run(()-> gripperClose());
+  }
+
+  public Command gripperOpenCommand(){
+    return run(()-> gripperOpen());
+  }
+
+  public Command gripperServoStopCommand(){
+    return run(()-> gripperStop());
+  }
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+}
