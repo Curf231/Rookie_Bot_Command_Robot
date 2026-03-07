@@ -4,21 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.RollerSubsystem;
-
-import com.ctre.phoenix6.hardware.TalonFX;
-
-import edu.wpi.first.wpilibj.PS5Controller;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
-
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,11 +20,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
-  private double currPosition = 0;
-  private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
   private final RollerSubsystem m_rollerSubsystem = new RollerSubsystem();
-
-
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller m_driverController =
@@ -55,19 +42,22 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    TalonFX rollerMotor = new TalonFX(9);
-    TalonFX armMotor = new TalonFX(6);
 
-    Trigger armUpTrigger = new Trigger(m_driverController.cross());
-    armUpTrigger.whileTrue(m_armSubsystem.armUpCommand());
-    Trigger armDownTrigger = new Trigger(m_driverController.square());
-    armDownTrigger.whileTrue(m_armSubsystem.armDownCommand());
+    m_driverController.R1().whileTrue(m_armSubsystem.armNeutralCommand());
 
-    Trigger rollerForwardTrigger = new Trigger(m_driverController.circle());
-    rollerForwardTrigger.whileTrue(m_rollerSubsystem.rollerForwardCommand());
+    m_driverController.cross().whileTrue(m_armSubsystem.armDownCommand());
 
-    Trigger rollerBackwardTrigger = new Trigger(m_driverController.triangle());
-    rollerBackwardTrigger.whileTrue(m_rollerSubsystem.rollerBackwardCommand());
+    m_driverController.square().whileTrue(m_armSubsystem.armUpCommand());
+
+    m_driverController
+        .circle()
+        .whileTrue(m_rollerSubsystem.rollerBackwardCommand())
+        .onFalse(m_rollerSubsystem.stopRollerCommand());
+
+    m_driverController
+        .triangle()
+        .whileTrue(m_rollerSubsystem.rollerForwardCommand())
+        .onFalse(m_rollerSubsystem.stopRollerCommand());
   }
 
   /**
@@ -75,5 +65,4 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-
 }
