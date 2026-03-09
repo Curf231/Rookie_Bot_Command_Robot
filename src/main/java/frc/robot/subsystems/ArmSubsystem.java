@@ -12,11 +12,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   private final TalonFX armMotor = new TalonFX(6);
   private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
-
   private StatusSignal<Angle> position = armMotor.getPosition();
-
   public ArmSubsystem() {
-    var talonFXConfigs = new TalonFXConfiguration();
+  var talonFXConfigs = new TalonFXConfiguration();
 
     var slot0Configs = talonFXConfigs.Slot0;
     slot0Configs.kS = 0.14;

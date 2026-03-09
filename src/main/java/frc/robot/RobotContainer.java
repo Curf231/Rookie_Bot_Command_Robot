@@ -28,56 +28,40 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller m_driverController =
-      new CommandPS5Controller(OperatorConstants.kDriverControllerPort);
+    new CommandPS5Controller(OperatorConstants.kDriverControllerPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
+
   private void configureBindings() {
 
-    m_driverController.R1().whileTrue(m_armSubsystem.armNeutralCommand());
-
-    m_driverController.cross().whileTrue(m_armSubsystem.armDownCommand());
-
-    m_driverController.square().whileTrue(m_armSubsystem.armUpCommand());
-
+    m_driverController
+        .R1()
+        .whileTrue(m_armSubsystem.armNeutralCommand());
+    m_driverController
+        .cross()
+        .whileTrue(m_armSubsystem.armDownCommand());
+    m_driverController
+        .square()
+        .whileTrue(m_armSubsystem.armUpCommand());
     m_driverController
         .circle()
         .whileTrue(m_rollerSubsystem.rollerBackwardCommand())
         .onFalse(m_rollerSubsystem.stopRollerCommand());
-
     m_driverController
         .triangle()
         .whileTrue(m_rollerSubsystem.rollerForwardCommand())
         .onFalse(m_rollerSubsystem.stopRollerCommand());
-
     m_driverController
         .pov(90)
         .whileTrue(m_gripperSubsystem.gripperOpenCommand())
         .onFalse(m_gripperSubsystem.gripperServoStopCommand());
-
     m_driverController
         .pov(270)
         .whileTrue(m_gripperSubsystem.gripperCloseCommand())
         .onFalse(m_gripperSubsystem.gripperServoStopCommand());
 
   }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
 }
